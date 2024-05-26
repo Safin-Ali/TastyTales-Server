@@ -2,7 +2,7 @@
 	"name": "tasty-tales-server",
 	"version": "1.0.0",
 	"description": "An Express.js server with JWT authentication and MongoDB integration.",
-	"main": "index.js",
+	"main": "src/app.js",
 	"scripts": {
 		"start": "node src/app.js",
 		"dev": "nodemon src/app.js"

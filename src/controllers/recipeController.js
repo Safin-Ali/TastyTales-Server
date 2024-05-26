@@ -25,7 +25,7 @@ exports.getRecipe = async (req, res) => {
 	try {
 
 		const result = await getDB().collection(process.env.MONGODB_RECIPES_DATA_COLLECTION).findOne({
-			_id: new ObjectId(req.params.id)
+			_id: ObjectId.createFromHexString(req.params.id)
 		})
 
 		res.status(200).send(result);

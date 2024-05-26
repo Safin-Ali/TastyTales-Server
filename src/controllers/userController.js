@@ -25,6 +25,6 @@ exports.userRegister = async (req, res) => {
 		res.status(401).send('unsuccess')
 	} catch (error) {
 		console.log(error);
-		res.status(500).send('unsuccess')
+		res.status(500).send('server side error')
 	}
 }

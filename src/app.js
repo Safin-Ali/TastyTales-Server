@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const { connectDB } = require('./config/db');
 const userRoutes = require('./routes/user');
+const recipeRoutes = require('./routes/recipe');
 require('dotenv').config();
 
 const app = express();
@@ -18,8 +19,11 @@ app.use(cors({
 	methods:['GET','POST']
 }));
 
-// users routes
+// users route
 app.use('/api/users', userRoutes);
+
+// recipes route
+app.use('/api/recipe',recipeRoutes)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
