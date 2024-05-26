@@ -17,7 +17,7 @@ app.use(cors({
 	allowedHeaders: ['Content-Type', 'Authorization'],
 	credentials:true,
 	optionsSuccessStatus: 200,
-	methods:['GET','POST']
+	methods:['GET','POST','PATCH']
 }));
 
 // users route

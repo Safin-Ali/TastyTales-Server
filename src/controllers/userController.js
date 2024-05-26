@@ -16,6 +16,7 @@ exports.userRegister = async (req, res) => {
 
 		const result = await db.collection(process.env.MONGODB_USERS_COLLECTION).insertOne({
 			...req.body,
+			reacts:[],
 			coin: 50
 		})
 
