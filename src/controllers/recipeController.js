@@ -23,11 +23,24 @@ exports.getRecipes = async (req, res) => {
 exports.getRecipe = async (req, res) => {
 	try {
 
-		const result = await getDB().collection(process.env.MONGODB_RECIPES_DATA_COLLECTION).findOne({
+		const db = getDB().collection(process.env.MONGODB_RECIPES_DATA_COLLECTION);
+
+		const result = await db.findOne({
 			_id: ObjectId.createFromHexString(req.params.id)
 		})
 
-		res.status(200).send(result);
+		let similarRecipe = await db.find({
+			country:result.country,
+			category:result.category
+		},{projection:{_id:1,recipeName:1,recipeImage:1}}).toArray();
+
+		if(similarRecipe.length > 1) {
+			similarRecipe = similarRecipe.filter(dt => dt._id.toHexString() !== result._id.toHexString())
+		} else {
+			similarRecipe = []
+		}
+
+		res.status(200).send({...result,similarRecipe});
 
 	} catch (error) {
 		res.status(500).send('server side error')
