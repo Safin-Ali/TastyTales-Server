@@ -6,8 +6,7 @@ exports.getRecipes = async (req, res) => {
 
 		const projection = {
 			'recipeDetails': 0,
-			'embeddedYoutubeUrl': 0,
-			'category': 0
+			'embeddedYoutubeUrl': 0
 		}
 
 		const result = await getDB().collection(process.env.MONGODB_RECIPES_DATA_COLLECTION).find({}, {
