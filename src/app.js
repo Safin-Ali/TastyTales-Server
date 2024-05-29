@@ -13,7 +13,7 @@ connectDB();
 app.use(express.json());
 
 app.use(cors({
-	origin:'https://tasty-tales.vercel.app/',
+	origin:'https://tasty-tales.vercel.app',
 	allowedHeaders: ['Content-Type', 'Authorization'],
 	credentials:true,
 	optionsSuccessStatus: 200,
