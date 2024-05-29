@@ -75,3 +75,24 @@ exports.addReact = async (req, res) => {
 		res.status(500).send('Server-side error');
 	}
 }
+
+exports.addRecipe = async (req, res) => {
+	try {
+		const { ytTutorial,  recipeCategories, ...rest } = req.body;
+		const createInsUser = {
+			...rest,
+			category: recipeCategories,
+			watchCount: 0,
+			reacts: 0,
+			embeddedYoutubeUrl: ytTutorial,
+			purchased_by: []
+		};
+
+		const result = await getDB().collection(process.env.MONGODB_RECIPES_DATA_COLLECTION).insertOne(createInsUser);
+
+		if (!result.acknowledged) return res.status(500).send('Internal server error');
+		return res.status(200).send({id:result.insertedId})
+	} catch (error) {
+		res.status(500).send('Server-side error');
+	}
+}
