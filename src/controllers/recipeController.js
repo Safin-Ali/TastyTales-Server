@@ -30,9 +30,13 @@ exports.getRecipe = async (req, res) => {
 		})
 
 		let similarRecipe = await db.find({
-			country:result.country,
-			category:result.category
+			'$or': [
+				{ country: result.country },
+				{ category: result.category }
+			]
 		},{projection:{_id:1,recipeName:1,recipeImage:1}}).toArray();
+
+		console.log(similarRecipe);
 
 		if(similarRecipe.length > 1) {
 			similarRecipe = similarRecipe.filter(dt => dt._id.toHexString() !== result._id.toHexString())
