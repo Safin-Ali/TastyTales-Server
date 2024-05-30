@@ -1,3 +1,4 @@
+const stripe = require('stripe')(process.env.STRIPE_SK);
 const { getDB } = require('../config/db');
 const { ObjectId } = require('mongodb');
 
@@ -20,7 +21,7 @@ exports.recipePurchase = async (req, res) => {
 
 		if (!recipe) return res.status(404).send('Recipe not found');
 
-		if(recipe.purchased_by.includes(userEmail)) return res.status(409).send('Already Purchased');
+		if (recipe.purchased_by.includes(userEmail)) return res.status(409).send('Already Purchased');
 
 		if (user.coin < 10) return res.status(403).send('Not enough coins');
 
@@ -49,5 +50,20 @@ exports.recipePurchase = async (req, res) => {
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Server side error');
+	}
+}
+
+exports.createPaymentIntent = async (req, res) => {
+	try {
+		const { amount } = req.body;
+	const paymentIntent = await stripe.paymentIntents.create({
+		amount: parseInt(amount) * 100,
+		currency: 'usd',
+	});
+
+	res.status(200).json({ clientSecret: paymentIntent.client_secret });
+	} catch (error) {
+		console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
 	}
 }
