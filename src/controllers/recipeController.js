@@ -4,6 +4,8 @@ const { ObjectId } = require('mongodb');
 exports.getRecipes = async (req, res) => {
 	try {
 
+		const range = parseInt(req.query.r);
+
 		const projection = {
 			'recipeDetails': 0,
 			'embeddedYoutubeUrl': 0
@@ -13,7 +15,7 @@ exports.getRecipes = async (req, res) => {
 			projection: projection
 		}).toArray();
 
-		res.status(200).send(result);
+		res.status(200).send(result.slice(range,range+5));
 
 	} catch (error) {
 		res.status(500).send('server side error')
@@ -35,8 +37,6 @@ exports.getRecipe = async (req, res) => {
 				{ category: result.category }
 			]
 		},{projection:{_id:1,recipeName:1,recipeImage:1}}).toArray();
-
-		console.log(similarRecipe);
 
 		if(similarRecipe.length > 1) {
 			similarRecipe = similarRecipe.filter(dt => dt._id.toHexString() !== result._id.toHexString())
